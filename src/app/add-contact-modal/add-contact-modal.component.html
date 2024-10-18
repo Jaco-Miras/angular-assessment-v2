@@ -1,0 +1,46 @@
+<div class="modal-container">
+  <h2>Add New Contact</h2>
+
+  <form>
+    <label for="name">Name</label>
+    <input
+      type="text"
+      id="name"
+      [(ngModel)]="newContact.name"
+      placeholder="Enter full name"
+      required
+    />
+
+    <label for="phone">Contact Number</label>
+    <input
+      type="text"
+      id="phone"
+      [(ngModel)]="newContact.phone"
+      placeholder="Enter contact number"
+      required
+    />
+
+    <label for="email">Email address</label>
+    <input
+      type="email"
+      id="email"
+      [(ngModel)]="newContact.email"
+      placeholder="Enter email address"
+      required
+    />
+
+    <div class="actions">
+      <button type="button" class="cancel-button" (click)="onCancel()">
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="add-button"
+        (click)="addContact()"
+        [disabled]="!newContact.name || !newContact.phone || !newContact.email"
+      >
+        Add Contact
+      </button>
+    </div>
+  </form>
+</div>

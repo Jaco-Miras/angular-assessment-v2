@@ -1,0 +1,105 @@
+.container {
+  padding: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* Add contact button stlye */
+.btn-add-contacts {
+  display: flex;
+  align-items: end;
+  justify-content: end;
+}
+
+.btn-add-contacts button {
+  margin-bottom: 10px;
+  background-color: transparent !important;
+  display: flex;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.actions {
+  display: flex;
+  justify-content: end;
+  margin-top: 10px;
+  gap: 5px;
+}
+
+.actions button {
+  background-color: transparent !important;
+  color: rgb(49, 48, 48);
+}
+
+button:hover {
+  background-color: #3700b3;
+}
+
+/* Toggle view styling */
+.view-toggle {
+  display: flex;
+  align-items: end;
+  justify-content: end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.view-toggle button {
+  color: #3c3d37;
+}
+.view-toggle button:hover {
+  background-color: whitesmoke;
+}
+
+/* Table styling */
+.contact-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.contact-table th,
+.contact-table td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.contact-table th {
+  background-color: #4a148c; /* Header background color */
+  color: white; /* Header text color */
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* style for modal */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}

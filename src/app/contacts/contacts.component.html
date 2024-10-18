@@ -1,0 +1,81 @@
+<div class="container">
+  <h1>Contacts Information</h1>
+  <p>
+    Your list of contacts appears here. To add a new contact, click on the Add
+    New Contact button.
+  </p>
+
+  <div class="btn-add-contacts">
+    <button mat-raised-button color="primary" (click)="showAddContactModal()">
+      Add New Contact
+    </button>
+  </div>
+
+  <!-- Modal for adding new contact -->
+  <div *ngIf="isAddModalVisible" class="modal-backdrop">
+    <app-add-contact-modal
+      (close)="closeAddContactModal()"
+    ></app-add-contact-modal>
+  </div>
+
+  <div class="view-toggle">
+    <button
+      mat-icon-button
+      (click)="setViewMode('grid')"
+      aria-label="Grid view"
+    >
+      <mat-icon>apps</mat-icon>
+      <!-- Icon for grid view -->
+    </button>
+    <button mat-icon-button (click)="setViewMode('table')" aria-label="Table">
+      <mat-icon>table_chart</mat-icon>
+      <!-- Icon for list view -->
+    </button>
+  </div>
+
+  <!-- Grid/List view -->
+  <div *ngIf="viewMode === 'grid'" class="grid">
+    <div class="card" *ngFor="let contact of contacts">
+      <h2>{{ contact.name }}</h2>
+      <p>{{ contact.email }}</p>
+      <p>{{ contact.phone }}</p>
+      <div class="actions">
+        <button mat-icon-button (click)="editContact(contact)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deleteContact(contact)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table view -->
+  <table *ngIf="viewMode !== 'grid'" class="contact-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Contact Number</th>
+        <th>Email Address</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contact of contacts">
+        <td>{{ contact.name }}</td>
+        <td>{{ contact.phone }}</td>
+        <td>{{ contact.email }}</td>
+        <td class="actions">
+          <button mat-icon-button (click)="editContact(contact)">
+            <mat-icon>edit</mat-icon>
+            <!-- Edit Icon -->
+          </button>
+          <button mat-icon-button (click)="deleteContact(contact)">
+            <mat-icon>delete</mat-icon>
+            <!-- Delete Icon -->
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
