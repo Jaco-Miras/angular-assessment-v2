@@ -1,26 +1,37 @@
 <div class="modal-container">
-  <h2>Add New Contact</h2>
+  <h2>Edit New Contact</h2>
 
   <form>
     <label for="name">Name</label>
-    <input type="text" id="name" placeholder="Enter full name" required />
+    <input
+      [(ngModel)]="selectedContact!.name"
+      placeholder="Enter name"
+      name="name"
+      required
+    />
 
     <label for="phone">Contact Number</label>
-    <input type="text" id="phone" placeholder="Enter contact number" required />
+    <input
+      [(ngModel)]="selectedContact!.phone"
+      placeholder="Enter contact number"
+      name="phone"
+      required
+    />
 
     <label for="email">Email address</label>
-    <input type="email" id="email" placeholder="Enter email address" required />
+    <input
+      [(ngModel)]="selectedContact!.email"
+      type="email"
+      name="email"
+      placeholder="Enter email address"
+      required
+    />
 
     <div class="actions">
       <button type="button" class="cancel-button" (click)="onCancel()">
         Cancel
       </button>
-      <button
-        type="button"
-        class="add-button"
-        (click)="addContact()"
-        [disabled]="!newContact.name || !newContact.phone || !newContact.email"
-      >
+      <button type="button" class="add-button" (click)="onUpdateContact()">
         Save Changes
       </button>
     </div>

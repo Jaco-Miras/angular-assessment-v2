@@ -13,9 +13,17 @@
 
   <!-- Modal for adding new contact -->
   <div *ngIf="isAddModalVisible" class="modal-backdrop">
-    <app-add-contact-modal
-      (close)="closeAddContactModal()"
-    ></app-add-contact-modal>
+    <app-add-contact-modal (close)="closeAddContactModal()" />
+  </div>
+  <!-- Modal for edit new contact -->
+  <div *ngIf="isEditModalVisible" class="modal-backdrop">
+    <app-edit-contact-modal
+      [selectedContact]="selectedContact"
+      [isEditModalVisible]="isEditModalVisible"
+      (close)="closeEditModal()"
+      (update)="handleUpdateContact($event)"
+    >
+    </app-edit-contact-modal>
   </div>
 
   <div class="view-toggle">
@@ -40,7 +48,7 @@
       <p>{{ contact.email }}</p>
       <p>{{ contact.phone }}</p>
       <div class="actions">
-        <button mat-icon-button (click)="editContact(contact)">
+        <button mat-icon-button (click)="showEditContactModal(contact)">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button (click)="deleteContact(contact)">
@@ -66,9 +74,8 @@
         <td>{{ contact.phone }}</td>
         <td>{{ contact.email }}</td>
         <td class="actions">
-          <button mat-icon-button (click)="editContact(contact)">
+          <button mat-icon-button (click)="showEditContactModal(contact)">
             <mat-icon>edit</mat-icon>
-            <!-- Edit Icon -->
           </button>
           <button mat-icon-button (click)="deleteContact(contact)">
             <mat-icon>delete</mat-icon>

@@ -1,10 +1,5 @@
 import { Component } from '@angular/core';
-
-interface Contact {
-  name: string;
-  email: string;
-  phone: string;
-}
+import { ContactService, Contact } from './contacts.service';
 
 @Component({
   selector: 'app-contacts',
@@ -12,80 +7,81 @@ interface Contact {
   styleUrls: ['./contacts.component.css'],
 })
 export class ContactsComponent {
-  contacts: Contact[] = [
-    {
-      name: 'Jay Contreras',
-      email: 'kamikazegegod@gmail.com',
-      phone: '0917-123-4567',
-    },
-    {
-      name: 'Jason Astete',
-      email: 'jason_the_menace@gmail.com',
-      phone: '0920-600-22-22',
-    },
-    {
-      name: 'Mikki Jill',
-      email: 'keyboardista@gmail.com',
-      phone: '0920-600-22-22',
-    },
-    {
-      name: 'Jose Luis Linao',
-      email: 'kamikazeprince@gmail.com',
-      phone: '0917-123-44-56',
-    },
-    {
-      name: 'Allan Burdeos',
-      email: 'allan_burdeos@gmail.com',
-      phone: '0917-666-66-66',
-    },
-    {
-      name: 'Jianelli Lubiano',
-      email: 'kamikazeprincess@gmail.com',
-      phone: '0917-888-77-77',
-    },
-    {
-      name: 'Led Zeppelin Tuyay',
-      email: 'led_zt@gmail.com',
-      phone: '0917-444-12-34',
-    },
-    {
-      name: 'Sep Rono',
-      email: 'sep_of_typecast@gmail.com',
-      phone: '0917-444-12-34',
-    },
-    {
-      name: 'Mark Estacio',
-      email: 'mark_estacio@gmail.com',
-      phone: '0917-666-66-66',
-    },
-  ];
-
-  isAddModalVisible: boolean = false;
+  contacts: Contact[] = [];
+  selectedContact?: Contact;
   isEditModalVisible: boolean = false;
+  isAddModalVisible: boolean = false;
+  isEditing: boolean = false;
 
+  // Contact details (used for both adding and editing)
+  newContact: Contact = { name: '', phone: '', email: '' };
+
+  constructor(private contactService: ContactService) {}
+
+  ngOnInit() {
+    this.loadContacts();
+  }
+
+  // Load contacts on component initialization
+  loadContacts() {
+    this.contactService.getContacts().subscribe((data: Contact[]) => {
+      this.contacts = data;
+    });
+  }
+
+  // Open modal for adding a new contact
+  showAddContactModal() {
+    this.isAddModalVisible = true;
+    this.isEditing = false; // We are adding, not editing
+    this.resetContactForm();
+  }
+
+  showEditContactModal(contact: Contact) {
+    this.selectedContact = { ...contact }; // Copy the contact data to edit
+    this.isEditModalVisible = true; // Open the modal
+  }
+
+  // Handle the updated contact from the modal
+  handleUpdateContact(updatedContact: Contact) {
+    this.contactService.updateContact(updatedContact).subscribe((response) => {
+      const index = this.contacts.findIndex((c) => c.id === updatedContact.id);
+      if (index !== -1) {
+        this.contacts[index] = response; // Update the contact in the list
+      }
+    });
+  }
+
+  // Delete a contact
+  deleteContact(contact: Contact) {
+    this.contactService.deleteContact(contact.id!).subscribe(() => {
+      this.contacts = this.contacts.filter((c) => c.id !== contact.id);
+    });
+  }
+
+  // Reset the contact form
+  resetContactForm() {
+    this.newContact = { name: '', phone: '', email: '' };
+  }
+
+  // Close the modal and reset flags
+  closeAddContactModal() {
+    this.isAddModalVisible = false;
+    this.isEditing = false;
+  }
+
+  closeEditModal() {
+    this.isEditModalVisible = false;
+  }
+
+  // Utility to validate if the contact is valid before submission
+  isContactValid(contact: Contact): boolean {
+    return !!contact.name && !!contact.phone && !!contact.email;
+  }
+
+  // Set the view mode (grid or list)
   viewMode: string = 'grid';
 
   setViewMode(mode: string) {
     this.viewMode = mode;
-  }
-
-  showAddContactModal() {
-    this.isAddModalVisible = true;
-  }
-
-  closeAddContactModal() {
-    this.isAddModalVisible = false;
-  }
-
-  onContactAdded(newContact: any) {
-    this.contacts.push(newContact); // Add the new contact to the list
-  }
-
-  editContact(contact: Contact) {
-    // Logic to edit the contact
-  }
-
-  deleteContact(contact: Contact) {
-    this.contacts = this.contacts.filter((c) => c !== contact);
   }
 }
