@@ -12,6 +12,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
+import { AlertComponent } from './shared/alert/alert.component';
+import { CustomerInfoComponent } from './customer-info/customer-info.component';
+import { RouterModule } from '@angular/router';
+import { routes } from './app.routes';
 
 @NgModule({
   declarations: [
@@ -19,16 +24,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ContactsComponent,
     AddContactModalComponent,
     EditContactModalComponent,
+    AlertComponent,
+    CustomerInfoComponent,
   ],
   imports: [
     FormsModule,
+    CommonModule,
     BrowserAnimationsModule,
     MatButtonModule,
     MatIconModule,
     HttpClientModule,
     ToastrModule.forRoot(),
+    RouterModule.forRoot(routes),
   ],
   providers: [],
   bootstrap: [AppComponent],
+  exports: [RouterModule],
 })
 export class AppModule {}

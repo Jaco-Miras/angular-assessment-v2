@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ContactService, Contact } from './contacts.service';
+import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-contacts',
@@ -7,6 +9,8 @@ import { ContactService, Contact } from './contacts.service';
   styleUrls: ['./contacts.component.css'],
 })
 export class ContactsComponent {
+  contactId: number | undefined;
+
   contacts: Contact[] = [];
   selectedContact?: Contact;
   isEditModalVisible: boolean = false;
@@ -16,7 +20,15 @@ export class ContactsComponent {
   // Contact details (used for both adding and editing)
   newContact: Contact = { name: '', phone: '', email: '' };
 
-  constructor(private contactService: ContactService) {}
+  constructor(
+    private contactService: ContactService,
+    private toastr: ToastrService,
+    private activatedRoute: ActivatedRoute
+  ) {
+    this.activatedRoute.params.subscribe((params) => {
+      this.contactId = params['contactId'];
+    });
+  }
 
   ngOnInit() {
     this.loadContacts();
@@ -53,9 +65,20 @@ export class ContactsComponent {
 
   // Delete a contact
   deleteContact(contact: Contact) {
-    this.contactService.deleteContact(contact.id!).subscribe(() => {
-      this.contacts = this.contacts.filter((c) => c.id !== contact.id);
-    });
+    this.contactService.deleteContact(contact.id!).subscribe(
+      () => {
+        // Success scenario: Contact deleted successfully
+        this.toastr.success('Contact deleted successfully!', 'Success', {
+          positionClass: 'toast-bottom-right',
+        });
+        this.contacts = this.contacts.filter((c) => c.id !== contact.id);
+      },
+      (error) => {
+        // Error scenario: Deletion failed
+        this.toastr.error('Failed to delete contact', 'Error');
+        console.error('Error deleting contact:', error); // Optional: Log error for debugging
+      }
+    );
   }
 
   // Reset the contact form
@@ -83,5 +106,9 @@ export class ContactsComponent {
 
   setViewMode(mode: string) {
     this.viewMode = mode;
+  }
+
+  onContactAdded(contact: Contact) {
+    this.contacts.push(contact); // Assuming contacts is an array in the parent component
   }
 }

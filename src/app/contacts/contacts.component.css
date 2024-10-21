@@ -34,6 +34,15 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.card a {
+  text-decoration: none;
+  color: black;
+}
+
+.card a:hover {
+  text-decoration: underline;
+}
+
 .actions {
   display: flex;
   justify-content: end;
@@ -71,6 +80,15 @@ button:hover {
   width: 100%;
   border-collapse: collapse;
   margin-top: 16px;
+}
+
+.contact-table a {
+  text-decoration: none;
+  color: black;
+}
+
+.contact-table a:hover {
+  text-decoration: underline;
 }
 
 .contact-table th,

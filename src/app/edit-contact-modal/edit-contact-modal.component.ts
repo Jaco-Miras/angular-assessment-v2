@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Contact } from '../contacts/contacts.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-contact-modal',
@@ -12,11 +13,16 @@ export class EditContactModalComponent {
   @Output() close = new EventEmitter<void>();
   @Output() update = new EventEmitter<Contact>();
 
+  constructor(private toastr: ToastrService) {}
+
   // Function to handle saving the updated contact
   onUpdateContact() {
     if (this.selectedContact && this.isContactValid(this.selectedContact)) {
       this.update.emit(this.selectedContact); // Emit the updated contact to the parent
       this.closeModal(); // Close the modal after updating
+      this.toastr.success('Changes saved!', 'Success', {
+        positionClass: 'toast-bottom-right',
+      });
     } else {
       console.error('Contact is invalid');
     }

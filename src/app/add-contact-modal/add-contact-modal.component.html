@@ -20,6 +20,9 @@
       [(ngModel)]="newContact.phone"
       placeholder="Enter contact number"
       required
+      maxlength="13"
+      pattern="[0-9]*"
+      (input)="formatPhone($event)"
     />
 
     <label for="email">Email address</label>
