@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ContactService, Contact } from './contacts.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
@@ -10,12 +10,14 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ContactsComponent {
   contactId: number | undefined;
+  viewMode: string = 'grid';
 
   contacts: Contact[] = [];
   selectedContact?: Contact;
   isEditModalVisible: boolean = false;
   isAddModalVisible: boolean = false;
   isEditing: boolean = false;
+  isCardView = signal(true);
 
   // Contact details (used for both adding and editing)
   newContact: Contact = { name: '', phone: '', email: '' };
@@ -39,6 +41,18 @@ export class ContactsComponent {
     this.contactService.getContacts().subscribe((data: Contact[]) => {
       this.contacts = data;
     });
+  }
+
+  // Formatting the number to 000-0000-0000
+  formatContactNumber(value: string | null | undefined) {
+    if (!value) return value;
+    const cleaned = value.replace(/\D/g, '');
+    if (cleaned.length !== 11) return value;
+    const formatted = `${cleaned.slice(0, 4)}-${cleaned.slice(
+      4,
+      7
+    )}-${cleaned.slice(7, 11)}`;
+    return formatted;
   }
 
   // Open modal for adding a new contact
@@ -96,19 +110,20 @@ export class ContactsComponent {
     this.isEditModalVisible = false;
   }
 
-  // Utility to validate if the contact is valid before submission
-  isContactValid(contact: Contact): boolean {
-    return !!contact.name && !!contact.phone && !!contact.email;
-  }
-
-  // Set the view mode (grid or list)
-  viewMode: string = 'grid';
-
   setViewMode(mode: string) {
     this.viewMode = mode;
   }
 
   onContactAdded(contact: Contact) {
     this.contacts.push(contact); // Assuming contacts is an array in the parent component
+  }
+
+  // active button
+  onSelectViewType(type: string) {
+    if (type === 'card') {
+      this.isCardView.set(true);
+    } else {
+      this.isCardView.set(false);
+    }
   }
 }

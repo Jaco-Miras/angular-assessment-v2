@@ -1,3 +1,22 @@
 {
-  "contacts": []
+  "contacts": [
+    {
+      "id": "e296",
+      "name": "Noel R",
+      "phone": "09483879921",
+      "email": "noel@m.com"
+    },
+    {
+      "id": "bcad",
+      "name": "Jaco Raven Miras",
+      "phone": "12901029100",
+      "email": "jaco.raven.miras@accenture.com"
+    },
+    {
+      "id": "3d99",
+      "name": "s",
+      "phone": "98231718173",
+      "email": "jaco.miras@gmail.com"
+    }
+  ]
 }

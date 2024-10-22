@@ -33,12 +33,18 @@
     <button
       mat-icon-button
       (click)="setViewMode('grid')"
+      [ngClass]="{ 'active-button': viewMode === 'grid' }"
       aria-label="Grid view"
     >
       <mat-icon>apps</mat-icon>
       <!-- Icon for grid view -->
     </button>
-    <button mat-icon-button (click)="setViewMode('table')" aria-label="Table">
+    <button
+      mat-icon-button
+      (click)="setViewMode('table')"
+      [ngClass]="{ 'active-button': viewMode === 'table' }"
+      aria-label="Table"
+    >
       <mat-icon>table_chart</mat-icon>
       <!-- Icon for list view -->
     </button>
@@ -47,14 +53,6 @@
   <!-- Grid/List view -->
   <div *ngIf="viewMode === 'grid'" class="grid">
     <div class="card" *ngFor="let contact of contacts">
-      <a
-        [routerLink]="['/home/view/', contact.id]"
-        routerLinkActive="router-link-active"
-      >
-        <h2>{{ contact.name }}</h2>
-      </a>
-      <p>{{ contact.email }}</p>
-      <p>{{ contact.phone }}</p>
       <div class="actions">
         <button mat-icon-button (click)="showEditContactModal(contact)">
           <mat-icon>edit</mat-icon>
@@ -62,6 +60,18 @@
         <button mat-icon-button (click)="deleteContact(contact)">
           <mat-icon>delete</mat-icon>
         </button>
+      </div>
+
+      <div>
+        <a
+          [routerLink]="['/home/view/', contact.id]"
+          routerLinkActive="router-link-active"
+        >
+          <h2>{{ contact.name }}</h2>
+        </a>
+        <p>{{ formatContactNumber(contact.phone) }}</p>
+        <p>{{ contact.email }}</p>
+        <!-- <p>{{ formatContactNumber(contact.phone) }}</p> -->
       </div>
     </div>
   </div>
@@ -86,7 +96,9 @@
             {{ contact.name }}
           </a>
         </td>
-        <td>{{ contact.phone }}</td>
+        <td>
+          <p>{{ formatContactNumber(contact.phone) }}</p>
+        </td>
         <td>{{ contact.email }}</td>
         <td class="actions">
           <button mat-icon-button (click)="showEditContactModal(contact)">

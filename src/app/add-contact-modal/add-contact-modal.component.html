@@ -1,50 +1,101 @@
 <div class="modal-container">
   <h2>Add New Contact</h2>
 
-  <form>
+  <form [formGroup]="contactForm" (ngSubmit)="addContact()">
+    <!-- Name Field -->
     <label for="name">Name</label>
     <input
       type="text"
       id="name"
       name="name"
-      [(ngModel)]="newContact.name"
+      formControlName="name"
       placeholder="Enter full name"
       required
     />
+    <div
+      *ngIf="
+        contactForm.controls['name'].invalid &&
+        contactForm.controls['name'].touched
+      "
+      class="error-message"
+    >
+      <small
+        style="color: red"
+        *ngIf="contactForm.controls['name'].errors?.['required']"
+      >
+        Name is required.
+      </small>
+    </div>
 
+    <!-- Phone Field -->
     <label for="phone">Contact Number</label>
     <input
       type="text"
       id="phone"
       name="phone"
-      [(ngModel)]="newContact.phone"
+      formControlName="phone"
       placeholder="Enter contact number"
+      maxlength="11"
       required
-      maxlength="13"
-      pattern="[0-9]*"
-      (input)="formatPhone($event)"
     />
+    <div
+      *ngIf="
+        contactForm.controls['phone'].invalid &&
+        contactForm.controls['phone'].touched
+      "
+      class="error-message"
+    >
+      <small
+        style="color: red"
+        *ngIf="contactForm.controls['phone'].errors?.['required']"
+      >
+        Phone number is required.
+      </small>
+      <small
+        style="color: red"
+        *ngIf="contactForm.controls['phone'].errors?.['pattern']"
+      >
+        Invalid phone number. Must be 11 digits.
+      </small>
+    </div>
 
+    <!-- Email Field -->
     <label for="email">Email address</label>
     <input
       type="email"
       id="email"
       name="email"
-      [(ngModel)]="newContact.email"
+      formControlName="email"
       placeholder="Enter email address"
       required
     />
+    <div
+      *ngIf="
+        contactForm.controls['email'].invalid &&
+        contactForm.controls['email'].touched
+      "
+      class="error-message"
+    >
+      <small
+        style="color: red"
+        *ngIf="contactForm.controls['email'].errors?.['required']"
+      >
+        Email is required.
+      </small>
+      <small
+        style="color: red"
+        *ngIf="contactForm.controls['email'].errors?.['email']"
+      >
+        Invalid email address.
+      </small>
+    </div>
 
+    <!-- Actions -->
     <div class="actions">
       <button type="button" class="cancel-button" (click)="onCancel()">
         Cancel
       </button>
-      <button
-        type="button"
-        class="add-button"
-        (click)="addContact()"
-        [disabled]="!newContact.name || !newContact.phone || !newContact.email"
-      >
+      <button type="submit" class="add-button" [disabled]="contactForm.invalid">
         Add Contact
       </button>
     </div>

@@ -1,15 +1,20 @@
 <div class="customer-info">
+  <button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
   <h2>Customer Information</h2>
   <table>
     <tr>
-      <th>First Name</th>
+      <th>Name</th>
       <th>Email Address</th>
       <th>Contact Number</th>
     </tr>
-    <tr>
-      <td>Jay Contreras</td>
-      <td>kamikazeegod.com</td>
-      <td>0917-123-4567</td>
-    </tr>
+    <tbody>
+      <tr>
+        <td>{{ this.contacts!.name }}</td>
+        <td>{{ this.contacts!.email }}</td>
+        <td>{{ this.contacts!.phone }}</td>
+      </tr>
+    </tbody>
   </table>
 </div>

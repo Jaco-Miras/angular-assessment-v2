@@ -20,13 +20,15 @@ export class ContactService {
   getContacts(): Observable<Contact[]> {
     return this.http.get<Contact[]>(this.apiUrl);
   }
+  getContact(id: string): Observable<Contact> {
+    return this.http.get<Contact>(this.apiUrl + '/' + id);
+  }
 
   addContact(contact: Contact): Observable<Contact> {
     return this.http.post<Contact>(this.apiUrl, contact);
   }
 
   updateContact(contact: Contact): Observable<Contact> {
-    // Use PUT to update the contact, specifying the ID in the URL
     return this.http.put<Contact>(`${this.apiUrl}/${contact.id}`, contact);
   }
 

@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { Contact, ContactService } from '../contacts/contacts.service';
 import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-contact-modal',
@@ -13,25 +14,33 @@ export class AddContactModalComponent {
 
   isAddModalVisible: boolean = false;
 
-  newContact: Contact = { name: '', phone: '', email: '' };
   showSuccessAlert: boolean | undefined;
   showErrorAlert: boolean | undefined;
+  contactForm!: FormGroup;
+
+  newContact: Contact = { name: '', phone: '', email: '' };
 
   constructor(
     private contactService: ContactService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private fb: FormBuilder
   ) {}
+  ngOnInit() {
+    this.contactForm = this.fb.group({
+      name: ['', Validators.required],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{11}$')]],
+      email: ['', [Validators.required, Validators.email]],
+    });
+  }
 
   addContact() {
-    if (
-      this.newContact.name &&
-      this.newContact.phone &&
-      this.newContact.email
-    ) {
-      this.contactService.addContact(this.newContact).subscribe((contact) => {
-        this.add.emit(contact);
+    if (this.contactForm.valid) {
+      // Check if the form is valid
+      const contact: Contact = this.contactForm.value; // Get the contact data from the form
+      this.contactService.addContact(contact).subscribe((addedContact) => {
+        this.add.emit(addedContact);
         this.onCancel();
-        this.newContact = { name: '', phone: '', email: '' };
+        this.contactForm.reset(); // Reset the form after submission
         this.toastr.success('Contact added successfully!', 'Success', {
           positionClass: 'toast-bottom-right',
         });
@@ -47,22 +56,6 @@ export class AddContactModalComponent {
 
   closeAddContactModal() {
     this.isAddModalVisible = false;
-  }
-
-  formatPhone(event: any): void {
-    let input = event.target.value.replace(/\D/g, ''); // Remove all non-numeric characters
-    if (input.length > 11) input = input.substring(0, 11); // Restrict to 11 digits
-
-    // Format the number as 0000-000-0000
-    if (input.length > 4 && input.length <= 7) {
-      input = `${input.slice(0, 4)}-${input.slice(4)}`;
-    } else if (input.length > 7) {
-      input = `${input.slice(0, 4)}-${input.slice(4, 7)}-${input.slice(7)}`;
-    }
-
-    // Set the formatted value back to the input field and the model
-    event.target.value = input;
-    this.newContact.phone = input;
   }
 
   //   clearForm() {

@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AppComponent } from './app.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { AddContactModalComponent } from './add-contact-modal/add-contact-modal.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditContactModalComponent } from './edit-contact-modal/edit-contact-modal.component';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -33,6 +33,7 @@ import { routes } from './app.routes';
     BrowserAnimationsModule,
     MatButtonModule,
     MatIconModule,
+    ReactiveFormsModule,
     HttpClientModule,
     ToastrModule.forRoot(),
     RouterModule.forRoot(routes),

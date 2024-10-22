@@ -35,7 +35,7 @@ label {
 }
 
 input {
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -51,7 +51,7 @@ input {
   border: 2px solid #7e22ce;
   color: #7e22ce;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 50px;
   cursor: pointer;
 }
 
@@ -60,7 +60,7 @@ input {
   color: white;
   border: none;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 50px;
   cursor: pointer;
 }
 

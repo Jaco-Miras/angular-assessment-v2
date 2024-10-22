@@ -8,6 +8,11 @@
 .customer-info h2 {
   margin-bottom: 10px;
 }
+.customer-info button {
+  border: none;
+  cursor: pointer;
+  background-color: transparent !important;
+}
 
 table {
   width: 100%;

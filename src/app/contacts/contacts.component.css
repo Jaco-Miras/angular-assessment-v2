@@ -7,6 +7,11 @@ h1 {
   margin-bottom: 10px;
 }
 
+.active-button {
+  background-color: #eeeeee;
+  color: white;
+}
+
 /* Add contact button stlye */
 .btn-add-contacts {
   display: flex;
@@ -16,8 +21,9 @@ h1 {
 
 .btn-add-contacts button {
   margin-bottom: 10px;
-  background-color: transparent !important;
+  background-color: #7e22ce !important;
   display: flex;
+  color: white;
 }
 
 .grid {
@@ -46,7 +52,6 @@ h1 {
 .actions {
   display: flex;
   justify-content: end;
-  margin-top: 10px;
   gap: 5px;
 }
 
